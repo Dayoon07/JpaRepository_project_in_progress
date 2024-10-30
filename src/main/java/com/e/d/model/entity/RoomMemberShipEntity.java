@@ -1,31 +1,32 @@
 package com.e.d.model.entity;
 
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
-
-@Table(name = "ROOM_MEMBERSHIP")
 @Entity
+@Table(name = "ROOM_MEMBERSHIP")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class RoomMemberShipEntity {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int membershipId; // 멤버십 ID
+    @Column(name = "membership_id")
+    private int membershipId;
 
-    @Column(nullable = false)
-    private int roomid; // 채팅방 ID
+    @Column(name = "roomid")
+    private int roomid;
 
-    @Column(nullable = false)
-    private int userid; // 사용자 ID
+    @Column(name = "userid")
+    private int userid;
 
     @Column(name = "joined_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Timestamp joinedAt; // 방 참여 일자
+    private LocalDateTime joinedAt;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR2(10) DEFAULT 'member'")
-    private String role; // 역할 (예: 관리자, 멤버 등)
+    @Column(name = "role", columnDefinition = "VARCHAR2(10 CHAR) DEFAULT 'member'")
+    private String role;
+    
 }

@@ -24,70 +24,95 @@
 <body>
 	<jsp:include page="/WEB-INF/common/header.jsp"></jsp:include>
 	
+	<c:if test="${ not empty userProfile }">
+	    <c:if test="${ not empty sessionScope.user && userProfile.userid == sessionScope.user.userid }">
+	    	<div class="mx-auto max-w-2xl w-full bg-white p-6 rounded-lg shadow-2xl" style="margin-top: 100px;">
+		        <div class="flex items-center">
+		            <!-- <img src="https://via.placeholder.com/100" alt="프로필 사진" class="w-24 h-24 rounded-full border-2 border-blue-500"> -->
+		            <div class="mb-3 flex">
+		                <h2 class="text-3xl font-bold text-gray-800 mr-5">사용자 이름</h2>
+		                <span class="text-3xl font-bolg text-gray-600">${ userProfile.username }</span>
+		            </div>
+		        </div>
+		        <div class="flex items-center mb-4 border-b">
+		            <div class="mb-3 flex">
+		                <h2 class="text-xl font-bold text-gray-800 mr-5">현재 상태</h2>
+		                <span class="text-xl font-bolg text-gray-600">${ userProfile.status }</span>
+		            </div>
+				</div>
+		        <div class="mb-4">
+		            <h3 class="text-2xl font-semibold text-gray-800">프로필 소개말</h3>
+		            <p class="text-2xl text-gray-700 mt-1">${ userProfile.userbio }</p>
+		        </div>
+		        <div class="mb-4">
+		            <h3 class="text-xl font-semibold text-gray-800">연락처 정보</h3>
+		            <ul class="list-disc list-inside text-xl text-gray-700">
+		                <li>이메일: ${ userProfile.useremail }</li>
+		                <li>전화번호: ${ userProfile.userphone }</li>
+		            </ul>
+		        </div>
+		        <div class="mb-4">
+		            <h3 class="text-xl font-semibold text-gray-800">유저가 회원가입 한 날짜</h3>
+		            <ul class="list-disc list-inside text-xl text-gray-700">
+		                <li>가입 일자: ${ userProfile.dateTime }</li>
+		            </ul>
+		        </div>
+		        <div class="flex justify-between mt-6">
+		            <button class="bg-blue-500 text-white px-4 py-2 rounded transition duration-200">정보 수정</button>
+		            <button id="openModal" class="bg-red-500 text-white p-2 px-4 rounded transition duration-200 ">
+				        계정 삭제
+				    </button>
+				    <div id="myModal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center">
+				        <div class="bg-white rounded-lg shadow-lg w-96 mx-auto p-6">
+				            <h2 class="text-xl font-bold mb-4">모달 제목</h2>
+				            <p class="mb-4">여기에 모달 내용을 입력하세요.</p>
+				            <button id="closeModal" class="bg-blue-500 text-white p-2 px-4 rounded outline hover:outline-offset-2 transition duration-200">
+				                취소하기
+				            </button>
+				            <button class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition duration-200">
+				                계정 삭제하기
+				            </button>
+				        </div>
+				    </div>
+		        </div>
+		    </div>
+	    </c:if>
+	    <c:if test="${ empty sessionScope.user || userProfile.userid != sessionScope.user.userid }">
+	    	<div class="mx-auto max-w-2xl w-full bg-white p-6 rounded-lg shadow-2xl" style="margin-top: 100px;">
+		        <div class="flex items-center">
+		            <!-- <img src="https://via.placeholder.com/100" alt="프로필 사진" class="w-24 h-24 rounded-full border-2 border-blue-500"> -->
+		            <div class="mb-3 flex">
+		                <h2 class="text-3xl font-bold text-gray-800 mr-5">사용자 이름</h2>
+		                <span class="text-3xl font-bolg text-gray-600">${ userProfile.username }</span>
+		            </div>
+		        </div>
+		        <div class="flex items-center mb-4 border-b">
+		            <div class="mb-3 flex">
+		                <h2 class="text-xl font-bold text-gray-800 mr-5">현재 상태</h2>
+		                <span class="text-xl font-bolg text-gray-600">${ userProfile.status }</span>
+		            </div>
+				</div>
+		        <div class="mb-4">
+		            <h3 class="text-2xl font-semibold text-gray-800">프로필 설명</h3>
+		            <p class="text-2xl text-gray-700 mt-1">${ userProfile.userbio }</p>
+		        </div>
+		        <div class="mb-4">
+		            <h3 class="text-xl font-semibold text-gray-800">연락처 정보</h3>
+		            <ul class="list-disc list-inside text-xl text-gray-700">
+		                <li>이메일: ${ userProfile.useremail }</li>
+		                <li>전화번호: ${ userProfile.userphone }</li>
+		            </ul>
+		        </div>
+		        <div class="mb-4">
+		            <h3 class="text-xl font-semibold text-gray-800">유저가 회원가입 한 날짜</h3>
+		            <ul class="list-disc list-inside text-xl text-gray-700">
+		                <li>가입 일자: ${ userProfile.dateTime }</li>
+		            </ul>
+		        </div>
+		    </div>
+	    </c:if>
+	</c:if>
 	
-	<c:if test="${ not empty user && userProfile.userid == user.userid }">
-		<div class="mx-auto max-w-2xl w-full bg-white p-6 rounded-lg shadow-2xl" style="margin-top: 100px;">
-	        <div class="flex items-center mb-4 border-b">
-	            <!-- <img src="https://via.placeholder.com/100" alt="프로필 사진" class="w-24 h-24 rounded-full border-2 border-blue-500"> -->
-	            <div class="mb-3 flex">
-	                <h2 class="text-3xl font-bold text-gray-800 mr-5">사용자 이름</h2>
-	                <span class="text-3xl font-bolg text-gray-600">${ userProfile.username }</span>
-	            </div>
-	        </div>
-	        <div class="mb-4">
-	            <h3 class="text-2xl font-semibold text-gray-800">프로필 설명</h3>
-	            <p class="text-2xl text-gray-700 mt-1">${ userProfile.userbio }</p>
-	        </div>
-	        <div class="mb-4">
-	            <h3 class="text-xl font-semibold text-gray-800">연락처 정보</h3>
-	            <ul class="list-disc list-inside text-xl text-gray-700">
-	                <li>이메일: ${ userProfile.useremail }</li>
-	                <li>전화번호: ${ userProfile.userphone }</li>
-	            </ul>
-	        </div>
-	        <div class="flex justify-between mt-6">
-	            <button class="bg-blue-500 text-white px-4 py-2 rounded transition duration-200">정보 수정</button>
-	            <button id="openModal" class="bg-red-500 text-white p-2 px-4 rounded transition duration-200 ">
-			        계정 삭제
-			    </button>
-			    <div id="myModal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center">
-			        <div class="bg-white rounded-lg shadow-lg w-96 mx-auto p-6">
-			            <h2 class="text-xl font-bold mb-4">모달 제목</h2>
-			            <p class="mb-4">여기에 모달 내용을 입력하세요.</p>
-			            <button id="closeModal" class="bg-blue-500 text-white p-2 px-4 rounded outline hover:outline-offset-2 transition duration-200">
-			                취소하기
-			            </button>
-			            <button class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition duration-200">
-			                계정 삭제하기
-			            </button>
-			        </div>
-			    </div>
-	        </div>
-	    </div>
-	</c:if>
-
-	<c:if test="${ not empty userProfile && empty user }">
-	    <div class="mx-auto max-w-2xl w-full bg-white p-6 rounded-lg shadow-2xl" style="margin-top: 100px;">
-	        <div class="flex items-center mb-4 border-b">
-	            <!-- <img src="https://via.placeholder.com/100" alt="프로필 사진" class="w-24 h-24 rounded-full border-2 border-blue-500"> -->
-	            <div class="mb-3 flex">
-	                <h2 class="text-3xl font-bold text-gray-800 mr-5">사용자 이름</h2>
-	                <span class="text-3xl font-bolg text-gray-600">${ userProfile.username }</span>
-	            </div>
-	        </div>
-	        <div class="mb-4">
-	            <h3 class="text-2xl font-semibold text-gray-800">프로필 설명</h3>
-	            <p class="text-2xl text-gray-700 mt-1">${ userProfile.userbio }</p>
-	        </div>
-	        <div class="mb-4">
-	            <h3 class="text-xl font-semibold text-gray-800">연락처 정보</h3>
-	            <ul class="list-disc list-inside text-xl text-gray-700">
-	                <li>이메일: ${ userProfile.useremail }</li>
-	                <li>전화번호: ${ userProfile.userphone }</li>
-	            </ul>
-	        </div>
-	    </div>
-	</c:if>
 	<c:if test="${ empty userProfile }">
     	<p>사용자를 찾을 수 없습니다.</p>
 	</c:if>

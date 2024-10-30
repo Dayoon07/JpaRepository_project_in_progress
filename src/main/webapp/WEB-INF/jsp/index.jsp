@@ -14,14 +14,14 @@
 	<jsp:include page="/WEB-INF/common/header.jsp"></jsp:include>
 
 	<c:if test="${ not empty AllChatRoom }">
-	    <div class="mx-auto max-w-screen-sm w-full bg-white border border-gray-300 mt-5 shadow-md" style="max-height: 700px; overflow-y: auto;">
+	    <div class="mx-auto max-w-screen-sm w-full bg-white border border-sky-300 mt-5 shadow-md" style="max-height: 700px; overflow-y: auto;">
 			<ul role="list" class="divide-y divide-blue-200 px-5">
 	        	<c:forEach var="room" items="${ AllChatRoom }">
 	            	<a href="${ cl }/chatroom/${ room.roomid }" class="flex justify-between gap-x-6 py-5 border-b-1">
-	                	<div class="flex min-w-0 gap-x-4">
+	                	<div class="flex min-w-0 gap-x-4 py-2">
 	                    	<div class="min-w-0 flex-auto">
-	                        	<p class="text-sm font-semibold leading-6 text-gray-900">${ room.roomname }</p>
-	                            <p class="mt-1 truncate text-xs leading-5 text-gray-500">${ room.roomnameinname }</p>
+	                        	<p class="text-xl font-semibold leading-6 text-gray-900">${ room.roomname }</p>
+	                            <p class="mt-1 truncate text-xl leading-5 text-gray-500">${ room.roomnameinname }</p>
 							</div>
 						</div>
 					</a>

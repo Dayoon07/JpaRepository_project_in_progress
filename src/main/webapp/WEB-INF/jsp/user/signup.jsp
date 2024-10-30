@@ -1,3 +1,4 @@
+<%@page import="java.time.LocalDateTime"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -11,8 +12,14 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/common/header.jsp"></jsp:include>
+	
+	<c:if test="${ not empty errorMessage }">
+	    <div class="alert alert-danger">
+	        ${ errorMessage }
+	    </div>
+	</c:if>
 
-	<div class="mx-auto max-w-screen-sm w-full bg-white border border-gray-300 p-8 rounded-lg shadow-md" style="margin-top: 100px;">
+	<div class="mx-auto max-w-screen-sm w-full bg-white border border-gray-300 p-8 rounded-lg shadow-xl" style="margin-top: 100px;">
 	    <h2 class="text-2xl font-bold text-center mb-6">회원가입</h2>
 	    <form action="${ cl }/signup" method="post" autocomplete="off">
 	        <div class="mb-4">
@@ -42,7 +49,7 @@
 	            </div>
 	            <div style="display: flex; flex: 1; space-x-4;">
 	                <div style="flex: 1; margin-right: 10px;">
-	                    <label class="block text-gray-700" for="userbio">사용자 소개</label>
+	                    <label class="block text-gray-700" for="userbio">사용자 소개말</label>
 	                    <textarea class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 	                        id="userbio" name="userbio" placeholder="자기소개를 입력하세요" style="resize: none; height: 130px;" required></textarea>
 	                </div>
@@ -51,7 +58,7 @@
 	
 	        <button class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200" type="submit">가입하기</button>
 	    </form>
-	    <p class="mt-4 text-center text-gray-600">회원이신가요? <a href="#" class="text-blue-500 hover:underline">로그인하기</a></p>
+	    <p class="mt-4 text-center text-gray-600">회원이신가요? <a href="${ cl }/signin" class="text-blue-500 hover:underline">로그인하기</a></p>
 	</div>
 	
 	<script>

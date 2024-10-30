@@ -12,7 +12,7 @@
 <body>
 	<jsp:include page="/WEB-INF/common/header.jsp"></jsp:include>
 
-        <div class="mx-auto max-w-md w-full bg-white border border-gray-300 p-8 rounded-lg shadow-md" style="margin-top: 100px;">
+        <div class="mx-auto max-w-md w-full bg-white border border-gray-300 p-8 rounded-lg shadow-xl" style="margin-top: 100px;">
             <h2 class="text-2xl font-bold text-center mb-6">로그인</h2>
             <form action="${ cl }/signin" method="post" autocomplete="off">
                 <div class="mb-4">

@@ -1,12 +1,11 @@
 package com.e.d.model.entity;
 
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
-
-@Table(name = "CHATROOM")
 @Entity
+@Table(name = "CHATROOM")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,24 +13,30 @@ import java.sql.Timestamp;
 public class ChatRoomEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int roomid; // 방 ID
-	
-	@Column(nullable = false)
-	private String roomname; // 방 이름
-	
-	@Column(name = "roomnameinname", nullable = false) // 필드명 수정: roomnameinname
-	private String roomnameinname; // 방 이름 내에 표시될 이름
-	
-	@Column(name = "created_at")
-	private Timestamp createdAt; // 방 생성 일시
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "roomid")
+    private int roomid;
 
-	@Column(name = "ownerid")
-	private Integer ownerid; // 방장 ID (chatuser의 userid 참조)
+    @Column(name = "roomname", nullable = false)
+    private String roomname;
+
+    @Column(name = "roomnameinname", nullable = false)
+    private String roomnameinname;
+
+    @Column(name = "date_time", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime dateTime;
+
+    @Column(name = "ownerid")
+    private Integer ownerid;
+
+    @Lob
+    @Column(name = "chattext")
+    private String chattext;
+
+    @Column(name = "textuser")
+    private String textuser;
+
+    @Column(name = "sender")
+    private String sender;
 	
-	@Column(name = "chattext")
-	private String chattext;
-	
-	@Column(name = "textuser")
-	private String textuser;
 }
