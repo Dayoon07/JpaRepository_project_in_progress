@@ -1,41 +1,60 @@
-# 채팅 애플리케이션 데이터베이스 스키마
+# 채팅 웹 애플리케이션 설명
 
-이 문서는 채팅 애플리케이션의 데이터베이스 스키마에 대한 개요를 제공하며, 사용된 테이블과 그 관계를 설명합니다.
+채팅 애플리케이션의 데이터베이스에 대한 설명
+사용된 데이터베이스는 Oracle XE 21
 
-## 테이블
+## 테이블 정리
 
-### 1. `chatroom`
+### 1. chatroom
 
-| 열 이름             | 데이터 유형             | 설명                                                 |
-|---------------------|-----------------------|-----------------------------------------------------|
-| `roomid`            | NUMBER                | 각 채팅방의 고유 식별자 (기본 키).                  |
-| `roomname`          | VARCHAR2(255 CHAR)    | 채팅방의 이름.                                     |
-| `roomnameinname`    | VARCHAR2(255 CHAR)    | 채팅방의 표시 이름.                                 |
-| `created_at`        | TIMESTAMP             | 채팅방이 생성된 일시 (기본값: 현재 시각).           |
-| `ownerid`           | NUMBER                | 방장 사용자 ID (외래 키로 `chatuser` 참조).        |
-| `chattext`          | CLOB                  | 채팅 메시지의 내용.                                 |
-| `textuser`          | VARCHAR2(255 CHAR)    | 마지막 메시지를 보낸 사용자 이름.                   |
+| 필드명            | 타입                       | 비고                                       | 기본값                       | 설명                          |
+|-------------------|---------------------------|-------------------------------------------|-----------------------------|-------------------------------|
+| roomid            | NUMBER                    | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -                           | 방의 고유 ID                 |
+| roomname          | VARCHAR2(255 CHAR)       | NOT NULL                                  | -                           | 방의 이름                   |
+| roomnameinname    | VARCHAR2(255 CHAR)       | NOT NULL                                  | -                           | 방의 이름 (내부 사용)       |
+| date_time         | TIMESTAMP                 | -                                         | CURRENT_TIMESTAMP           | 방 생성 일시                 |
+| ownerid           | NUMBER                    | REFERENCES chatuser(userid)              | -                           | 방장 ID                     |
+| chattext          | CLOB                      | -                                         | -                           | 방의 채팅 텍스트             |
+| textuser          | VARCHAR2(255 CHAR)       | -                                         | -                           | 메시지를 보낸 사용자 이름   |
+| sender            | VARCHAR2(255 CHAR)       | -                                         | -                           | 메시지를 보낸 사람          |
 
-### 2. `chatuser`
+### 2. chatuser
 
-| 열 이름             | 데이터 유형             | 설명                                                 |
-|---------------------|-----------------------|-----------------------------------------------------|
-| `userid`            | NUMBER                | 각 사용자의 고유 식별자 (기본 키).                  |
-| `username`          | VARCHAR2(255 CHAR)    | 사용자의 사용자 이름.                               |
-| `useremail`         | VARCHAR2(255 CHAR)    | 사용자의 이메일 주소.                               |
-| `userpassword`      | VARCHAR2(255 CHAR)    | 사용자 인증을 위한 비밀번호.                        |
-| `userbio`           | CLOB                  | 사용자의 소개글.                                   |
-| `userphone`         | VARCHAR2(13)          | 사용자의 전화번호.                                   |
-| `created_at`        | TIMESTAMP             | 사용자가 생성된 일시 (기본값: 현재 시각).           |
-| `last_login`        | TIMESTAMP             | 사용자의 마지막 로그인 시각.                         |
-| `status`            | VARCHAR(10)           | 사용자의 현재 상태 (기본값: 'offline').             |
+| 필드명            | 타입                       | 비고                                       | 기본값                       | 설명                          |
+|-------------------|---------------------------|-------------------------------------------|-----------------------------|-------------------------------|
+| userid            | NUMBER                    | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -                           | 사용자 고유 ID                |
+| username          | VARCHAR2(255 CHAR)       | NOT NULL                                  | -                           | 사용자 이름                 |
+| useremail         | VARCHAR2(255 CHAR)       | NOT NULL                                  | -                           | 사용자 이메일               |
+| userpassword      | VARCHAR2(255 CHAR)       | NOT NULL                                  | -                           | 사용자 비밀번호             |
+| userbio           | CLOB                      | NOT NULL                                  | -                           | 사용자 소개                 |
+| userphone         | VARCHAR2(13)             | NOT NULL                                  | -                           | 사용자 전화번호             |
+| date_time         | TIMESTAMP                 | NOT NULL                                  | CURRENT_TIMESTAMP           | 사용자 생성 일시            |
+| status            | VARCHAR2(255 CHAR)       | -                                         | 'Off'                       | 사용자 상태                 |
 
-### 3. `room_membership`
+### 3. room_membership
 
-| 열 이름             | 데이터 유형             | 설명                                                 |
-|---------------------|-----------------------|-----------------------------------------------------|
-| `membership_id`     | NUMBER                | 각 방 참여의 고유 식별자 (기본 키).                 |
-| `roomid`            | NUMBER                | 채팅방 ID (외래 키로 `chatroom` 참조).              |
-| `userid`            | NUMBER                | 사용자 ID (외래 키로 `chatuser` 참조).              |
-| `joined_at`         | TIMESTAMP             | 방에 참여한 일자 (기본값: 현재 시각).                |
-| `role`              | VARCHAR2(10)          | 사용자의 역할 (예: 관리자, 멤버 등, 기본값: 'member').|
+| 필드명            | 타입                       | 비고                                       | 기본값                       | 설명                          |
+|-------------------|---------------------------|-------------------------------------------|-----------------------------|-------------------------------|
+| membership_id     | NUMBER                    | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -                           | 멤버십의 고유 ID            |
+| roomid            | NUMBER                    | REFERENCES chatroom(roomid)              | -                           | 방의 ID                     |
+| userid            | NUMBER                    | REFERENCES chatuser(userid)              | -                           | 사용자의 ID                 |
+| joined_at         | TIMESTAMP                 | -                                         | CURRENT_TIMESTAMP           | 방 참여 일시                 |
+| role              | VARCHAR2(10)             | -                                         | 'member'                   | 방 내 역할 (예: 관리자, 멤버 등) |
+
+### 4. chat_message
+
+| 필드명            | 타입                       | 비고                                       | 기본값                       | 설명                          |
+|-------------------|---------------------------|-------------------------------------------|-----------------------------|-------------------------------|
+| message_id        | NUMBER                    | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -                           | 메시지의 고유 ID            |
+| roomid            | NUMBER                    | REFERENCES chatroom(roomid)              | -                           | 메시지가 속한 방의 ID      |
+| userid            | NUMBER                    | REFERENCES chatuser(userid)              | -                           | 메시지를 보낸 사용자 ID     |
+| chattext          | CLOB                      | NOT NULL                                  | -                           | 메시지 내용                 |
+| date_time         | TIMESTAMP                 | -                                         | CURRENT_TIMESTAMP           | 메시지 전송 일시            |
+| username          | VARCHAR2(255 CHAR)       | NOT NULL                                  | -                           | 메시지를 보낸 사용자 이름   |
+
+## Notes
+
+- 모든 테이블의 `PRIMARY KEY`는 `GENERATED ALWAYS AS IDENTITY`로 설정되어 자동으로 증가
+- 기본값이 설정된 열은 해당 값이 명시되지 않을 경우 자동으로 적용
+- `CLOB` 타입은 대용량 텍스트 데이터를 저장하는 데 사용
+- Entity에서 Table name을 전부 대문자로 한 이유는 그렇게 안 하면 매핑이 잘 안되서
